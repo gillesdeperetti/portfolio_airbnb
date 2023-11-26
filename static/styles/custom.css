@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;900&display=swap');
+
+body {
+    font-family: 'Figtree', sans-serif;
+    color: #333;
+    background-color: #fff;
+}
+
+h1 {
+    font-size: 2.618em;
+    color: #00a699;
+    font-weight: 900;
+}
+
+h2 {
+    font-size: 1.618em;
+    color: #00a699;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 1em;
+    color: #00a699;
+    font-weight: 544;
+}
+
+p {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 1em;
+}
+
+.stMarkdown p {
+    font-family: 'Figtree', sans-serif;
+    color: #333;
+    background-color: #fff;
+}
+
+h1 {
+    font-size: 2.618em;
+    color: #00a699;
+    font-weight: 900;
+}
+
+h2 {
+    font-size: 1.618em;
+    color: #00a699;
+    font-weight: 700;
+}
+
+.stMarkdown p {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 1em;
+}
+
+.stMarkdown ul, ol {
+    padding-left: 20px;
+    font-size: 1em;
+}
+
+.stMarkdown li {
+    margin-bottom: 0.618em;
+}
+
+button, .stButton > button {
+    background-color: #00a699; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    font-family: 'Figtree', sans-serif; 
+    transition: background-color 0.3s, transform 0.3s; 
+}
+
+button:hover, .stButton > button:hover {
+    background-color: #00a699; 
+    color: white; 
+    transform: scale(1.05); 
+}
+
+button:active, .stButton > button:active, .stButton > button:focus {
+    background-color: #00a699 !important; 
+    color: white !important;
+    transform: scale(0.98); 
+}
+
+.text-justify {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.text-justify strong {
+    color: #00a699;
+}
+
+.text-justify a {
+    color: #7bcdc8;
+    font-weight: bold;
+}
+
+
+.stProgress {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.stMarkdown code {
+    color: #FC642D
+}
+
+.stMarkdown strong {
+    color: #FC642D
+    
+}
+
+.stMarkdown a {
+    color: #FF5A5F;
+    font-weight: 400;
+}
+
+.stMarkdown a:hover {
+    text-decoration: underline;
+}
