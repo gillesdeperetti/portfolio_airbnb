@@ -22,6 +22,19 @@ if choose == "Introduction":
 
 if choose == "Data Overview": 
     st.title('Extraction Transformation Load')
+    st.write(starting_point)
+    with st.expander('Raw data & Data Dictionary'):
+        st.dataframe(pd.read_csv('data/final_dataset.csv'))
+        st.write("### Data Dictionary")
+        st.markdown(data_dictionary)
+    st.header("ETL Phase")
+    with st.expander ("Data extraction and streamlining"):
+        st.write(etl_process)
+    st.header("Explore the Augmented Dataset")
+    with st.expander("Augmented dataset"): 
+        filters = create_filter_widgets(data)
+        filtered_data = apply_filters(data, *filters)
+        display_dataframe(filtered_data)
 
 if choose == "Data Visualization":
     st.title('Exploratory Data Analysis')
