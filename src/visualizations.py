@@ -1,41 +1,38 @@
-import streamlit as st
-from streamlit_option_menu import option_menu
-from src.config import *
+import plotly.express as px
 import pandas as pd
 import numpy as np
-
-logo = 'static/images/logo-AirBnB-Data_Dive.png'
-airbnb_logo = 'static/images/airbnb-logo.png'
+import streamlit as st
+import plotly.express as px
+import plotly.graph_objects as go
+from wordcloud import WordCloud, STOPWORDS
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 @st.cache_data()
-def load_css(file_name):
-    with open(file_name, "r") as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+def plot_wordcloud(data, colormap='viridis'):
+    """
+    Generate and plot a word cloud based on the textual data in the provided DataFrame.
 
-def setup_sidebar():
-    with st.sidebar:
-        col1, col2, col3 = st.columns([0.2,0.7,0.2])
-        with col2: 
-            st.image(logo)
-        choose = option_menu("", ["Introduction", "Data Overview", "Data Visualization", "Data to Map", "Modeling", "Try it yourself", "Conclusion"],
-                             icons=['house', 'clipboard-data', 'graph-up', 'map', 'cpu-fill', 'braces-asterisk', 'check-circle'],
-                             default_index=0,
-                             styles={
-            "container": {"padding": "5!important", "background-color": "#fafafa"},
-            "icon": {"color": babu, "font-size": "25px"}, 
-            "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": '#F0F2F6'},
-            "nav-link-selected": {"background-color": foggy},
-        }
-        )
-        
+    :param data: The DataFrame containing text data.
+    :param colormap: (Optional) The colormap to use for the word cloud. Default is 'viridis'.
 
-        footer = '''
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-        # About me
-        '''
-        st.sidebar.markdown(footer, unsafe_allow_html=True)
-        st.sidebar.markdown("""
-        #### Gilles de Peretti <a href="https://github.com/gillesdeperetti" target="_blank"><i class='fab fa-github'></i></a> <a href="https://www.linkedin.com/in/gilles-de-peretti-8219425a/" target="_blank"><i class='fab fa-linkedin'></i></a>
-        """, unsafe_allow_html=True)
-        return choose
+    :return: A matplotlib.figure.Figure object representing the word cloud plot.
+    """
+    custom_stopwords = set(STOPWORDS)
+    locations = set(data['Location'].unique())
+    custom_stopwords.update(locations)
+    
+    exclusion = ['rental', 'rentals', 'Rent', 'rents', 'Rental', 'rent', 'Rental unit', 'bed', 'beds', 'bath', 'baths', 'bedroom', 'bedrooms', ]
+    custom_stopwords.update(exclusion)
+    
+    wordcloud = WordCloud(width=800, height=450,
+                          background_color='white',
+                          stopwords=custom_stopwords,
+                          colormap=colormap,
+                          min_font_size=5).generate(' '.join(data['name']))
+    
+    fig, ax = plt.subplots(figsize=(8, 4.5), facecolor=None)
+    ax.imshow(wordcloud, interpolation='bilinear')
+    ax.axis("off")
+    plt.close(fig)  
+    return fig
