@@ -63,28 +63,6 @@ h2 {
     margin-bottom: 0.618em;
 }
 
-button, .stButton > button {
-    background-color: #00a699; 
-    color: white; 
-    border: none; 
-    padding: 10px 20px; 
-    border-radius: 5px; 
-    font-family: 'Figtree', sans-serif; 
-    transition: background-color 0.3s, transform 0.3s; 
-}
-
-button:hover, .stButton > button:hover {
-    background-color: #00a699; 
-    color: white; 
-    transform: scale(1.05); 
-}
-
-button:active, .stButton > button:active, .stButton > button:focus {
-    background-color: #00a699 !important; 
-    color: white !important;
-    transform: scale(0.98); 
-}
-
 .text-justify {
     text-align: justify;
     text-justify: inter-word;
