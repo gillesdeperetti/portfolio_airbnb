@@ -38,6 +38,9 @@ if choose == "Data Overview":
 
 if choose == "Data Visualization":
     st.title('Exploratory Data Analysis')
+    st.write(eda_intro)
+    with st.expander("Data Dictionary") : 
+        st.write(augmented_data_dictionary)
     st.header('Snapshot: Comparing Local and Global Trends')
     st.write(snapshot_local_vs_global)
     location = st.selectbox('Select Location:', data['Location'].unique())
@@ -61,7 +64,17 @@ if choose == "Data Visualization":
 
             col1.metric(result[3], result[4])
             col2.metric(result[8], result[9])
-
+    st.header("Market Dynamics : Supply and Demand across Cities")
+    col1, col2 = st.columns([0.6,0.4])
+    with col1 : 
+        grouped_metrics = calculate_global_metrics(data)
+        fig = plot_market_dynamics_scatter(grouped_metrics)
+        st.plotly_chart(fig, use_container_width=True)
+    with col2 : 
+        st.write(market_dynamics_S)
+    with st.expander("Detailed analysis"):
+        st.write(market_dynamics_A)
+    
 if choose == "Data to Map":
     st.title('Filter, Find, and Visualize')
 

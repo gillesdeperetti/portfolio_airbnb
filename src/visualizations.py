@@ -85,3 +85,33 @@ def display_location_comparison(data, location):
         comparison_results.append((f"Mean {var} in {location}", local_mean, mean_delta, "Global Mean", global_mean, f"Median {var} in {location}", local_median, median_delta, "Global Median", global_median))
 
     return comparison_results
+
+import plotly.express as px
+
+def plot_market_dynamics_scatter(grouped_data):
+    """
+    Plot the market dynamics using a scatter plot with color scale based on availability and size based on ratings.
+    
+    Args:
+    grouped_data (DataFrame): Data with aggregated metrics.
+
+    Returns:
+    plotly.graph_objs._figure.Figure: A Plotly figure object.
+    """
+    fig = px.scatter(
+        grouped_data, 
+        x='Location', 
+        y='Total_Listings',
+        size='Average_Reviews',  
+        color='Average_Availability',  
+        color_continuous_scale=px.colors.diverging.Geyser_r,
+    )
+
+    fig.update_layout(
+        xaxis_title='City',
+        yaxis_title='Total Listings',
+        legend_title='Metrics',
+        coloraxis_colorbar=dict(title='Average Availability')
+    )
+
+    return fig

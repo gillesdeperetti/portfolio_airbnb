@@ -39,3 +39,23 @@ def setup_sidebar():
         #### Gilles de Peretti <a href="https://github.com/gillesdeperetti" target="_blank"><i class='fab fa-github'></i></a> <a href="https://www.linkedin.com/in/gilles-de-peretti-8219425a/" target="_blank"><i class='fab fa-linkedin'></i></a>
         """, unsafe_allow_html=True)
         return choose
+    
+@st.cache_data
+def calculate_global_metrics(data):
+    """
+    Calculate global metrics for market dynamics analysis, including average availability and ratings.
+    
+    Args:
+    data (DataFrame): The Airbnb dataset.
+
+    Returns:
+    DataFrame: A DataFrame with aggregated metrics.
+    """
+    grouped_data = data.groupby('Location').agg(
+        Total_Listings=pd.NamedAgg(column='id', aggfunc='count'),
+        Average_Availability=pd.NamedAgg(column='availability_365', aggfunc='mean'),
+        Average_Reviews=pd.NamedAgg(column='number_of_reviews', aggfunc='mean'),
+        Average_Rating=pd.NamedAgg(column='Rating', aggfunc='mean')  
+    ).reset_index()
+
+    return grouped_data

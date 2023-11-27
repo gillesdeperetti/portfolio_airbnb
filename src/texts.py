@@ -59,6 +59,62 @@ etl_process = """
         The detailed methodology and the meticulous steps undertaken in the ETL phase are thoroughly documented. For an in-depth review of this process, the [ETL Notebook can be accessed here](https://github.com/gillesdeperetti/portfolio_airbnb/blob/master/notebooks/ETL.ipynb).
 
         """
+
+eda_intro = """
+        We're now going to explore and visualize the data offered by our augmented dataset. We're going to start with general insights, and then move on to more specific ones. The aim is to understand our data and think about which features to select or which particularities to take into account for the next stage, which will be modeling. 
+
+        If required, the data dictionary attached to this data visualization is available below. 
+        """
 snapshot_local_vs_global = """
         Focusing on key metrics like pricing and ratings across major European cities, this interactive visualization contrasts local nuances with global dataset averages. It provides a nuanced understanding of how each city's unique Airbnb landscape aligns with, or diverges from, broader global patterns.
+        """
+augmented_data_dictionary = """ 
+        - `id`: Identifier number of the listing (numeric).
+        - `name`: The name or title of the listing (text).
+        - `host_id`: Identifier number of the host (numeric).
+        - `host_name`: Name of the host (text).
+        - `calculated_host_listings_count`: Number of listings for an host_id (numeric).
+        - `neighbourhood`: Neighborhood of the property (text).
+        - `latitude` and `longitude`: Geographical coordinates of the property (numeric).
+        - `Location`: The city of the listing (Text). 
+        - `room_type`: Type of room offered (text, categorical).
+        - `Bedrooms` and `Beds` The number of Bedrooms, Beds and Baths associated to the listing (numeric). 
+        - `Baths` The number of bathrooms / toilets associated to the listing (numeric).
+        - `price`: Price per night in local currency (numeric). 
+        - `price_in_euros`: Price per night in Euros (numeric).
+        - `Housing Types`: Type of accommodation from ad title, e.g. Condo, Chalet, Yurt... (Text).
+        - `Property Type Cluster`: Accommodation category, grouping of accommodation types into clusters, for example: Waterfront Lodgings, Apartments, Unique and Unusual Lodgings... (Text).
+        - `minimum_nights`: Minimum number of nights required (numeric).
+        - `number_of_reviews`: Total number of reviews (numeric).
+        - `last_review`: Date of the last review (date).
+        - `reviews_per_month`: Number of reviews per month (numeric).
+        - `availability_365`: Number of days available over the next 365 days (numeric).
+        - `number_of_reviews_ltm`: Number of reviews in the last 12 months (numeric).
+        """
+
+market_dynamics_A = """
+        - **Amsterdam** has a relatively low total of listings with moderate availability and a high average number of reviews per listing. Its average rating is very high, suggesting that while there may not be as many options as in some other cities, the quality of the stays is highly regarded.
+
+        - **Barcelona** shows a high number of total listings with more availability than Amsterdam, but a lower average number of reviews and rating, which might indicate a more competitive market with more choices for consumers.
+
+        - **Berlin** has a moderate number of listings and availability, with fewer reviews on average and a high rating. This suggests a balanced market with a good reputation for quality stays.
+
+        - **Brussels** has the lowest number of listings among the provided cities, yet has a high availability and a moderate number of reviews and rating, pointing towards a less saturated market.
+
+        - **Florence** has a high number of listings with a high availability and the highest average number of reviews, coupled with a high rating, indicating a popular and well-reviewed market for Airbnb stays.
+
+        - **Lisbon** also has a high number of listings and the highest average availability, with the highest number of reviews on average and a good rating, which might reflect a tourist-friendly market with a lot of choices and frequent stays.
+
+        - **London** boasts the highest number of listings by far but has moderate availability and the lowest average number of reviews, along with a solid average rating. This could indicate a highly diverse market where guests have a plethora of options and possibly shorter stays.
+
+        - **Paris** has slightly fewer listings than London but less availability and slightly more reviews on average, with a high rating as well. This could suggest a high demand for listings in Paris, with consistent quality experiences.
+        """
+market_dynamics_S = """
+        In summary, we can suggests that : 
+
+        - Larger cities like *London* and *Paris* have a **vast number of listings and high demand**, reflected in lower availability and a larger spread in the quality of experiences. 
+        
+        - Smaller cities or those with fewer listings like *Brussels* and *Amsterdam* may offer **higher quality stays** on average, as reflected in their high ratings. 
+        
+        - Cities like *Lisbon* and *Florence*, with **high availability and many reviews, might have a seasonal market** with a lot of tourism and frequent turnover of guests.
         """
