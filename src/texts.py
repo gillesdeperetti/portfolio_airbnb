@@ -59,3 +59,6 @@ etl_process = """
         The detailed methodology and the meticulous steps undertaken in the ETL phase are thoroughly documented. For an in-depth review of this process, the [ETL Notebook can be accessed here](https://github.com/gillesdeperetti/portfolio_airbnb/blob/master/notebooks/ETL.ipynb).
 
         """
+snapshot_local_vs_global = """
+        Focusing on key metrics like pricing and ratings across major European cities, this interactive visualization contrasts local nuances with global dataset averages. It provides a nuanced understanding of how each city's unique Airbnb landscape aligns with, or diverges from, broader global patterns.
+        """

@@ -38,6 +38,29 @@ if choose == "Data Overview":
 
 if choose == "Data Visualization":
     st.title('Exploratory Data Analysis')
+    st.header('Snapshot: Comparing Local and Global Trends')
+    st.write(snapshot_local_vs_global)
+    location = st.selectbox('Select Location:', data['Location'].unique())
+    comparison_results = display_location_comparison(data, location)
+
+    with st.expander(f"Local Statistics for {location} with Comparisons"):
+        for result in comparison_results:
+            col1, col2 = st.columns(2)
+
+            var_name = result[0].split()[1]  
+
+            delta_color_mean = "normal" if var_name not in ["minimum_nights", "price_in_euro"] else "inverse"
+            delta_color_median = "normal" if var_name not in ["minimum_nights", "price_in_euro"] else "inverse"
+
+            col1.metric(result[0], result[1], f"{result[2]:+.2f}", delta_color=delta_color_mean)
+            col2.metric(result[5], result[6], f"{result[7]:+.2f}", delta_color=delta_color_median)
+
+    with st.expander("Global Statistics"):
+        for result in comparison_results:
+            col1, col2 = st.columns(2)
+
+            col1.metric(result[3], result[4])
+            col2.metric(result[8], result[9])
 
 if choose == "Data to Map":
     st.title('Filter, Find, and Visualize')

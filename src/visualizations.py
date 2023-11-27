@@ -36,3 +36,52 @@ def plot_wordcloud(data, colormap='viridis'):
     ax.axis("off")
     plt.close(fig)  
     return fig
+
+@st.cache_data
+def calculate_global_statistics(data):
+    """Calculates global mean and median for numerical columns."""
+    stats = data.describe().loc[['mean', '50%']]
+    return stats
+
+@st.cache_data
+def compare_location_statistics(data, global_stats, location):
+    """Compares statistics of a given location with global statistics."""
+    location_data = data[data['Location'] == location]
+    
+    if location_data.empty:
+        return pd.DataFrame(columns=global_stats.columns)
+    
+    location_stats = location_data.describe().loc[['mean', '50%']]
+    return location_stats
+
+@st.cache_data
+def display_location_comparison(data, location):
+    global_stats = calculate_global_statistics(data)
+    location_stats = compare_location_statistics(data, global_stats, location)
+
+    variables = ['price_in_euro', 'Rating', 'number_of_reviews', 'minimum_nights', 'availability_365', 'Bedrooms', 'Beds', 'Baths']
+    comparison_results = []
+
+    for var in variables:
+        local_mean = round(location_stats.at['mean', var], 2)
+        global_mean = round(global_stats.at['mean', var], 2)
+        mean_delta = local_mean - global_mean
+
+        local_median = round(location_stats.at['50%', var], 2)
+        global_median = round(global_stats.at['50%', var], 2)
+        median_delta = local_median - global_median
+
+        if var == 'price_in_euro':
+            local_mean = f"{local_mean}€"
+            global_mean = f"{global_mean}€"
+            local_median = f"{local_median}€"
+            global_median = f"{global_median}€"
+        elif var == 'Rating':
+            local_mean = f"{local_mean}⭐"
+            global_mean = f"{global_mean}⭐"
+            local_median = f"{local_median}⭐"
+            global_median = f"{global_median}⭐"
+
+        comparison_results.append((f"Mean {var} in {location}", local_mean, mean_delta, "Global Mean", global_mean, f"Median {var} in {location}", local_median, median_delta, "Global Median", global_median))
+
+    return comparison_results
