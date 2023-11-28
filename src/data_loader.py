@@ -3,11 +3,26 @@ import numpy as np
 import streamlit as st
 
 def load_data():
-    data = pd.read_csv("data/data_augmented.csv")  
-    return data
+    """
+    Loads data from a CSV file.
+
+    Returns:
+        pandas.DataFrame: The loaded data.
+    """
+    return pd.read_csv("data/data_augmented.csv")
 
 
 def create_filter_widgets(data):
+    """
+    Creates filter widgets for data exploration.
+
+    Args:
+        data (pandas.DataFrame): The data to create filter widgets for.
+
+    Returns:
+        tuple: A tuple containing the selected filter values.
+    """
+
     location = st.selectbox('Location', ['All'] + sorted(data['Location'].unique().tolist()))
     col1, col2 = st.columns([1, 1])
     with col1:
@@ -20,13 +35,26 @@ def create_filter_widgets(data):
     return number_of_reviews, price_in_euro, bedrooms, baths, location
 
 def apply_filters(data, number_of_reviews, price_in_euro, bedrooms, baths, location):
-    # Numeric filters 
+    """
+    Applies filters to the data.
+
+    Args:
+        data (pandas.DataFrame): The data to apply filters to.
+        number_of_reviews (int): The minimum number of reviews.
+        price_in_euro (int): The minimum price in Euros.
+        bedrooms (str): The selected number of bedrooms.
+        baths (str): The selected number of baths.
+        location (str): The selected location.
+
+    Returns:
+        pandas.DataFrame: The filtered data.
+    """
+
     filtered_data = data[
         (data['number_of_reviews'] >= number_of_reviews) &
         (data['price_in_euro'] >= price_in_euro)
     ]
     
-    # Categorical filters if 'Any' or 'All' is not selected
     if bedrooms != 'Any':
         filtered_data = filtered_data[filtered_data['Bedrooms'] == bedrooms]
     if baths != 'Any':
@@ -35,6 +63,7 @@ def apply_filters(data, number_of_reviews, price_in_euro, bedrooms, baths, locat
         filtered_data = filtered_data[filtered_data['Location'] == location]
     
     return filtered_data
+
 def configure_columns():
     return {
         'id': st.column_config.TextColumn("ID"),
@@ -68,7 +97,48 @@ def configure_order():
     'price_in_euro'
 ]
 
+@st.cache_data
 def display_dataframe(data):
     column_config = configure_columns()
     column_order = configure_order()
     st.dataframe(data=data[column_order], column_config=column_config, hide_index=True)
+
+@st.cache_data
+def calculate_global_metrics(data):
+    """
+    Calculate global metrics for market dynamics analysis, including average availability and ratings.
+
+    Args:
+    data (DataFrame): The Airbnb dataset.
+
+    Returns:
+    DataFrame: A DataFrame with aggregated metrics.
+    """
+    return (
+        data.groupby('Location')
+        .agg(
+            Total_Listings=('id', 'count'),
+            Average_Availability=('availability_365', 'mean'),
+            Average_Reviews=('number_of_reviews', 'mean'),
+            Average_Rating=('Rating', 'mean'),
+        )
+        .reset_index()
+    )
+
+@st.cache_data
+def prepare_data_for_sunburst(data):
+    """
+    Prepare data for sunburst chart, calculating percentages within each property type cluster.
+
+    Args:
+    data (DataFrame): The Airbnb dataset.
+
+    Returns:
+    DataFrame: A DataFrame suitable for sunburst chart visualization.
+    """
+    sunburst_data = data.groupby(['Location', 'Property Type Cluster', 'room_type']).size().reset_index(name='Count')
+
+    cluster_total = sunburst_data.groupby(['Location', 'Property Type Cluster'])['Count'].transform('sum')
+    sunburst_data['Percentage'] = (sunburst_data['Count'] / cluster_total) * 100
+
+    return sunburst_data

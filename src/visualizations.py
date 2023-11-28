@@ -12,13 +12,16 @@ from src.utils import *
 @st.cache_data()
 def plot_wordcloud(data, colormap='viridis'):
     """
-    Generate and plot a word cloud based on the textual data in the provided DataFrame.
+    Generates and plots a word cloud based on the textual data in the provided DataFrame.
 
-    :param data: The DataFrame containing text data.
-    :param colormap: (Optional) The colormap to use for the word cloud. Default is 'viridis'.
+    Args:
+        data (pandas.DataFrame): The DataFrame containing text data.
+        colormap (str, optional): The colormap to use for the word cloud. Default is 'viridis'.
 
-    :return: A matplotlib.figure.Figure object representing the word cloud plot.
+    Returns:
+        matplotlib.figure.Figure: A matplotlib figure object representing the word cloud plot.
     """
+
     custom_stopwords = set(STOPWORDS)
     locations = set(data['Location'].unique())
     custom_stopwords.update(locations)
@@ -40,23 +43,51 @@ def plot_wordcloud(data, colormap='viridis'):
 
 @st.cache_data
 def calculate_global_statistics(data):
-    """Calculates global mean and median for numerical columns."""
-    stats = data.describe().loc[['mean', '50%']]
-    return stats
+    """
+    Calculates global mean and median for numerical columns.
+
+    Args:
+        data (pandas.DataFrame): The data to calculate statistics for.
+
+    Returns:
+        pandas.DataFrame: A DataFrame containing the global mean and median for each numerical column.
+    """
+    return data.describe().loc[['mean', '50%']]
 
 @st.cache_data
 def compare_location_statistics(data, global_stats, location):
-    """Compares statistics of a given location with global statistics."""
+    """
+    Compares statistics of a given location with global statistics.
+
+    Args:
+        data (pandas.DataFrame): The data to compare.
+        global_stats (pandas.DataFrame): The global statistics.
+        location (str): The location to compare.
+
+    Returns:
+        pandas.DataFrame: A DataFrame containing the statistics of the given location compared to the global statistics.
+    """
+
     location_data = data[data['Location'] == location]
-    
+
     if location_data.empty:
         return pd.DataFrame(columns=global_stats.columns)
-    
-    location_stats = location_data.describe().loc[['mean', '50%']]
-    return location_stats
+
+    return location_data.describe().loc[['mean', '50%']]
 
 @st.cache_data
 def display_location_comparison(data, location):
+    """
+    Displays a comparison of location statistics with global statistics.
+
+    Args:
+        data (pandas.DataFrame): The data to compare.
+        location (str): The location to compare.
+
+    Returns:
+        list: A list of tuples containing the comparison results.
+    """
+
     global_stats = calculate_global_statistics(data)
     location_stats = compare_location_statistics(data, global_stats, location)
 
@@ -117,6 +148,16 @@ def plot_market_dynamics_scatter(grouped_data):
     return fig
 
 def plot_global_sunburst(data):
+    """
+    Plots a sunburst chart to visualize global data.
+
+    Args:
+        data (pandas.DataFrame): The data to plot.
+
+    Returns:
+        plotly.graph_objs._figure.Figure: A Plotly figure object representing the sunburst chart.
+    """
+
     color_sequence = {
         'Private room': '#8338ec',
         'Entire home/apt': '#fb5607',

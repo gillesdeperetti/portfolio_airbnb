@@ -4,19 +4,32 @@ from src.config import *
 import pandas as pd
 import numpy as np
 import plotly.express as px
-import colorsys
-
-
 
 logo = 'static/images/logo-AirBnB-Data_Dive.png'
 airbnb_logo = 'static/images/airbnb-logo.png'
 
 @st.cache_data()
 def load_css(file_name):
+    """
+    Loads and applies custom CSS styles from a file.
+
+    Args:
+        file_name (str): The name of the CSS file to load.
+
+    Returns:
+        None
+    """
     with open(file_name, "r") as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 def setup_sidebar():
+    """
+    Sets up the sidebar with options and content.
+
+    Returns:
+        str: The selected option.
+    """
+
     with st.sidebar:
         col1, col2, col3 = st.columns([0.2,0.7,0.2])
         with col2: 
@@ -43,41 +56,3 @@ def setup_sidebar():
         #### Gilles de Peretti <a href="https://github.com/gillesdeperetti" target="_blank"><i class='fab fa-github'></i></a> <a href="https://www.linkedin.com/in/gilles-de-peretti-8219425a/" target="_blank"><i class='fab fa-linkedin'></i></a>
         """, unsafe_allow_html=True)
         return choose
-    
-@st.cache_data
-def calculate_global_metrics(data):
-    """
-    Calculate global metrics for market dynamics analysis, including average availability and ratings.
-    
-    Args:
-    data (DataFrame): The Airbnb dataset.
-
-    Returns:
-    DataFrame: A DataFrame with aggregated metrics.
-    """
-    grouped_data = data.groupby('Location').agg(
-        Total_Listings=pd.NamedAgg(column='id', aggfunc='count'),
-        Average_Availability=pd.NamedAgg(column='availability_365', aggfunc='mean'),
-        Average_Reviews=pd.NamedAgg(column='number_of_reviews', aggfunc='mean'),
-        Average_Rating=pd.NamedAgg(column='Rating', aggfunc='mean')  
-    ).reset_index()
-
-    return grouped_data
-    
-@st.cache_data
-def prepare_data_for_sunburst(data):
-    """
-    Prepare data for sunburst chart, calculating percentages within each property type cluster.
-
-    Args:
-    data (DataFrame): The Airbnb dataset.
-
-    Returns:
-    DataFrame: A DataFrame suitable for sunburst chart visualization.
-    """
-    sunburst_data = data.groupby(['Location', 'Property Type Cluster', 'room_type']).size().reset_index(name='Count')
-
-    cluster_total = sunburst_data.groupby(['Location', 'Property Type Cluster'])['Count'].transform('sum')
-    sunburst_data['Percentage'] = (sunburst_data['Count'] / cluster_total) * 100
-
-    return sunburst_data
