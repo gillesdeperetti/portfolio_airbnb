@@ -2,11 +2,12 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 import streamlit as st
-import plotly.express as px
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
 import seaborn as sns
+from src.utils import *
 
 @st.cache_data()
 def plot_wordcloud(data, colormap='viridis'):
@@ -86,8 +87,7 @@ def display_location_comparison(data, location):
 
     return comparison_results
 
-import plotly.express as px
-
+@st.cache_data
 def plot_market_dynamics_scatter(grouped_data):
     """
     Plot the market dynamics using a scatter plot with color scale based on availability and size based on ratings.
@@ -113,5 +113,27 @@ def plot_market_dynamics_scatter(grouped_data):
         legend_title='Metrics',
         coloraxis_colorbar=dict(title='Average Availability')
     )
+    fig.update_layout(height=400)
+    return fig
 
+def plot_global_sunburst(data):
+    color_sequence = {
+        'Private room': '#8338ec',
+        'Entire home/apt': '#fb5607',
+        'Hotel room': '#ffbe0b',
+        'Shared room': '#ff006e',
+    }
+
+    fig = px.sunburst(
+        data, 
+        path=['Location', 'room_type', 'Property Type Cluster'], 
+        values='Count',
+        color='room_type',  
+        color_discrete_map=color_sequence,
+        title='Interactive diagram: click on a segment to find out more'
+    )
+
+    fig.update_layout(height=600)
+
+    fig.update_traces(textinfo='label+percent parent')
     return fig

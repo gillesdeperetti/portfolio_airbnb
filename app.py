@@ -8,6 +8,7 @@ from static.styles import *
 import streamlit as st
 import pandas as pd
 
+
 st.set_page_config(**page_config)
 load_css('static/styles/custom.css')
 choose = setup_sidebar()
@@ -74,7 +75,20 @@ if choose == "Data Visualization":
         st.write(market_dynamics_S)
     with st.expander("Detailed analysis"):
         st.write(market_dynamics_A)
+
+    st.header("Global Distribution of Room Types and Property Clusters Across Cities")
+    col1, col2 = st.columns([0.6,0.4])
+    with col1 : 
+        sunburst_data = prepare_data_for_sunburst(data)
+        global_fig = plot_global_sunburst(sunburst_data)
+        st.plotly_chart(global_fig)
+    with col2 : 
+        st.write(global_distribution_S)
+    with st.expander("Key Observations per City"):
+        st.write(global_distribution_A)
     
+        
+            
 if choose == "Data to Map":
     st.title('Filter, Find, and Visualize')
 

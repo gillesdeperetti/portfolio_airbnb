@@ -3,6 +3,10 @@ from streamlit_option_menu import option_menu
 from src.config import *
 import pandas as pd
 import numpy as np
+import plotly.express as px
+import colorsys
+
+
 
 logo = 'static/images/logo-AirBnB-Data_Dive.png'
 airbnb_logo = 'static/images/airbnb-logo.png'
@@ -59,3 +63,21 @@ def calculate_global_metrics(data):
     ).reset_index()
 
     return grouped_data
+    
+@st.cache_data
+def prepare_data_for_sunburst(data):
+    """
+    Prepare data for sunburst chart, calculating percentages within each property type cluster.
+
+    Args:
+    data (DataFrame): The Airbnb dataset.
+
+    Returns:
+    DataFrame: A DataFrame suitable for sunburst chart visualization.
+    """
+    sunburst_data = data.groupby(['Location', 'Property Type Cluster', 'room_type']).size().reset_index(name='Count')
+
+    cluster_total = sunburst_data.groupby(['Location', 'Property Type Cluster'])['Count'].transform('sum')
+    sunburst_data['Percentage'] = (sunburst_data['Count'] / cluster_total) * 100
+
+    return sunburst_data
