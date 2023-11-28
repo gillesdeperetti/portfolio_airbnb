@@ -121,15 +121,15 @@ market_dynamics_S = """
 global_distribution_S = """
         ### Individual vs. Shared Accommodations:
 
-        - **'Entire home/apt'** room types are most prevalent across all cities, indicating a strong preference for individual accommodations.
-        - 'Private room' is the second most common, suggesting that shared accommodations also have a market, albeit smaller.
-        - 'Shared room' types are the least common across all cities.
-        - **London** and **Paris** show the highest counts for 'Entire home/apt', suggesting a significant demand for individual accommodations.
-        - 'Hotel room' types are minimal but are more noticeable in Paris, likely due to its significant tourism industry.
+        - `Entire home/apt` room types are most prevalent across all cities, indicating a strong preference for individual accommodations.
+        - `Private room` is the second most common, suggesting that shared accommodations also have a market, albeit smaller.
+        - `Shared room` types are the least common across all cities.
+        - **London** and **Paris** show the highest counts for `Entire home/apt`, suggesting a significant demand for individual accommodations.
+        - `Hotel room` types are minimal but are more noticeable in **Paris**, likely due to its significant tourism industry.
 
         ### Standard vs. Unique Accommodations:
 
-        - **Standard** accommodations, which include categories like 'Apartments', 'Private Houses', and 'Urban Accommodations', overwhelmingly dominate in all cities.
+        - **Standard** accommodations, which include categories like `Apartments`, `Private Houses`, and `Urban Accommodations`, overwhelmingly dominate in all cities.
         - **Unique** accommodations make up a small percentage of the listings, offering niche options for those seeking different experiences.
 
         """
